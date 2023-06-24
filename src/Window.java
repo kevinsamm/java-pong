@@ -22,7 +22,7 @@ public class Window extends JFrame implements Runnable {
         if (keyListener.isKeyPressed(KeyEvent.VK_UP)) {
             System.out.println("UP ARROW");
         } else if (keyListener.isKeyPressed(KeyEvent.VK_DOWN)) {
-            System.out.println("DOWN ARROW");
+            System.out.println("DOWN ARROW PRESSED");
         }
     }
 
