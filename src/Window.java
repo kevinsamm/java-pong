@@ -3,12 +3,14 @@ import java.awt.*;
 import java.awt.event.KeyEvent;
 
 public class Window extends JFrame implements Runnable {
-    public Graphics2D g2;
-    KL keyListener = new KL();
-    public Rect playerOne;
-    Rect ia;
-    Rect ball;
-    PlayerController playerController;
+    private Graphics2D g2;
+    private KL keyListener = new KL();
+    private Rect playerOne;
+    private Rect ia;
+    private Rect ball;
+    private PlayerController playerController;
+    private Ball ballRect;
+    private AiController aiController;
 
     public Window() {
         this.setSize(Constants.SCREEN_WIDTH, Constants.SCREEN_HEIGHT);
@@ -25,7 +27,10 @@ public class Window extends JFrame implements Runnable {
         ia = new Rect(Constants.SCREEN_WIDTH - Constants.HZ_PADDING - Constants.PADDLE_WIDTH, 40, Constants.PADDLE_WIDTH, Constants.PADDLE_HEIGHT, Constants.PADDLE_COLOR);
         ball = new Rect((double) Constants.SCREEN_WIDTH /2, (double) Constants.SCREEN_HEIGHT /2, Constants.BALL_WIDTH, Constants.BALL_WIDTH, Constants.PADDLE_COLOR);
 
+        ballRect = new Ball(ball, playerOne, ia);
+
         playerController = new PlayerController(playerOne, keyListener);
+        aiController = new AiController(new PlayerController(ia), ball);
     }
 
     public void update(double dt) {
@@ -35,6 +40,8 @@ public class Window extends JFrame implements Runnable {
         g2.drawImage(dbImage, 0, 0, this);
 
         playerController.update(dt);
+        ballRect.update(dt);
+        aiController.update(dt);
     }
 
     public void draw (Graphics g) {
