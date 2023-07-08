@@ -3,9 +3,8 @@ import java.util.Random;
 public class Ball {
     public Rect rect;
     public Rect leftPaddle, rightPaddle;
-    private Random random = new Random();
-    private double vy = -1 * Constants.BALL_SPEED + random.nextInt((int) Constants.BALL_SPEED);
-    private double vx = -1 * Constants.BALL_SPEED;
+    private double vy = -1 * Constants.BALL_SPEED / 3;;
+    private double vx = -1 * Constants.BALL_SPEED / 3;;
 
     public Ball(Rect rect, Rect leftPaddle, Rect rightPaddle) {
         this.rect = rect;
@@ -15,7 +14,7 @@ public class Ball {
 
     public int update(double dt) {
         if (vx < 0) {
-            if (rect.x <= leftPaddle.x + leftPaddle.width && rect.y >= leftPaddle.y && rect.y <= leftPaddle.y + leftPaddle.height) {
+            if (rect.x > leftPaddle.x && rect.x <= leftPaddle.x + leftPaddle.width && rect.y >= leftPaddle.y && rect.y <= leftPaddle.y + leftPaddle.height) {
                 double theta = calculateNewVelocityAngle(leftPaddle);
                 double newVx = Math.abs(Math.cos(theta) * Constants.BALL_SPEED);
                 double newVy = -Math.sin(theta) * Constants.BALL_SPEED;
@@ -28,7 +27,8 @@ public class Ball {
                 return -1;
             }
         } else if (vx > 0) {
-            if (rect.x + rect.width >= rightPaddle.x && rect.y >= rightPaddle.y && rect.y <= rightPaddle.y + rightPaddle.height) {
+            if (rect.x + rect.width >= rightPaddle.x && rect.x + rect.width < rightPaddle.x + rightPaddle.width
+                    && rect.y >= rightPaddle.y && rect.y <= rightPaddle.y + rightPaddle.height) {
                 double theta = calculateNewVelocityAngle(rightPaddle);
                 double newVx = Math.abs(Math.cos(theta) * Constants.BALL_SPEED);
                 double newVy = -Math.sin(theta) * Constants.BALL_SPEED;
@@ -42,7 +42,7 @@ public class Ball {
             }
         }
         if (vy > 0) {
-            if (rect.y + rect.height > Constants.SCREEN_HEIGHT) {
+            if (rect.y + rect.height >= Constants.SCREEN_HEIGHT) {
                 vy *= -1;
             }
         } else if (vy < 0) {
@@ -65,6 +65,7 @@ public class Ball {
     public void resetPosition() {
         rect.x = (double) Constants.SCREEN_WIDTH /2;
         rect.y = (double) Constants.SCREEN_HEIGHT /2;
-        vy = -1 * Constants.BALL_SPEED + random.nextInt((int) Constants.BALL_SPEED);
+        vy = -1 * Constants.BALL_SPEED / 3;
+        vx = -1 * Constants.BALL_SPEED / 3;
     }
 }
